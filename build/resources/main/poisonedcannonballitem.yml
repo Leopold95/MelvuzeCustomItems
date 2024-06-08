@@ -1,0 +1,22 @@
+material: REDSTONE
+name: "BAAM"
+lore:
+  - "lore"
+cooldown: 200
+
+enchantments:
+  SILK_TOUCH:
+    level: 1
+    ignored: true
+  KNOCKBACK:
+    level: 1
+    ignored: true
+
+life-time: 5
+explode-range: 5
+effect-time:
+  poison: 8
+  slow: 8
+  blind: 3
+  weak: 3
+ball-velocity: 0.5
