@@ -1,12 +1,11 @@
 package me.leopold95.melvuzecustomitems;
 
-import items.BlindnessItem;
-import items.PoisonedCannonballItem;
-import listemers.ArrowHit;
-import listemers.Explosions;
-import listemers.ProjectileHit;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import me.leopold95.melvuzecustomitems.items.BlindnessItem;
+import me.leopold95.melvuzecustomitems.items.InvulnerabilityItem;
+import me.leopold95.melvuzecustomitems.items.PoisonedCannonballItem;
+import me.leopold95.melvuzecustomitems.listemers.ArrowHit;
+import me.leopold95.melvuzecustomitems.listemers.Explosions;
+import me.leopold95.melvuzecustomitems.listemers.ProjectileHit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class CustomItems extends JavaPlugin {
@@ -19,6 +18,7 @@ public final class CustomItems extends JavaPlugin {
 
         new BlindnessItem(this, "blindnessitem");
         new PoisonedCannonballItem(this, "poisonedcannonballitem");
+        new InvulnerabilityItem(this, "invulnerabilityitem");
 
         getServer().getPluginManager().registerEvents(new ProjectileHit(), this);
         getServer().getPluginManager().registerEvents(new ArrowHit(), this);

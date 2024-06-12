@@ -1,4 +1,4 @@
-package items;
+package me.leopold95.melvuzecustomitems.items;
 
 import me.leopold95.melvuzecustomitems.CustomItems;
 import org.bukkit.*;
@@ -9,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 import ru.melvuze.melvuzeitemslib.api.Item;
 
 public class BlindnessItem extends Item {
@@ -25,6 +24,7 @@ public class BlindnessItem extends Item {
     public void onRightClick(PlayerInteractEvent playerInteractEvent, Player player, ItemStack itemStack) {
         double radius = getConfig().getDouble("radius");
         int blindnessDelay = getConfig().getInt("blindness-delay");
+        double animationSpeed = getConfig().getDouble("animation-speed");
 
         PotionEffect pe = new PotionEffect(PotionEffectType.BLINDNESS, blindnessDelay * 20, 0);
 
@@ -40,7 +40,7 @@ public class BlindnessItem extends Item {
             for(double i = 0; i <= 360; i += 0.25){
                 double x = Math.sin(i) * radius * 0.5;
                 double z = Math.cos(i) * radius * 0.5;
-                player.getLocation().getWorld().spawnParticle(Particle.REVERSE_PORTAL ,player.getLocation(), 0,  x, 0, z, 0.1);
+                player.getLocation().getWorld().spawnParticle(Particle.REVERSE_PORTAL ,player.getLocation(), 0,  x, 0, z, animationSpeed);
             }
         });
 

@@ -1,13 +1,11 @@
-package listemers;
+package me.leopold95.melvuzecustomitems.listemers;
 
-import core.Keys;
+import me.leopold95.melvuzecustomitems.core.Keys;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.persistence.PersistentDataType;
-
-import java.security.Key;
 
 public class ProjectileHit implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)

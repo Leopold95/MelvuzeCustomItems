@@ -1,10 +1,9 @@
-package items;
+package me.leopold95.melvuzecustomitems.items;
 
-import core.Keys;
+import me.leopold95.melvuzecustomitems.core.Keys;
 import me.leopold95.melvuzecustomitems.CustomItems;
-import models.PoisonedCannonball;
+import me.leopold95.melvuzecustomitems.models.PoisonedCannonball;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Fireball;
 import org.bukkit.entity.LargeFireball;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -12,8 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import ru.melvuze.melvuzeitemslib.api.Item;
-
-import java.security.Key;
 
 public class PoisonedCannonballItem  extends Item {
     public static PoisonedCannonball data;
@@ -39,6 +36,7 @@ public class PoisonedCannonballItem  extends Item {
         LargeFireball fireball = player.launchProjectile(LargeFireball.class);
         fireball.getPersistentDataContainer().set(Keys.POISONED_CANNONBALL, PersistentDataType.INTEGER, 1);
         fireball.setShooter(player);
+        fireball.setGlowing(false);
 
         fireball.setDirection(player.getLocation().getDirection());
         fireball.setVelocity(fireball.getDirection().multiply(data.velocity));

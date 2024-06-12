@@ -1,12 +1,10 @@
-package listemers;
+package me.leopold95.melvuzecustomitems.listemers;
 
-import core.Keys;
+import me.leopold95.melvuzecustomitems.core.Keys;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.persistence.PersistentDataType;
-
-import javax.swing.text.html.parser.Entity;
 
 public class Explosions implements Listener {
     @EventHandler

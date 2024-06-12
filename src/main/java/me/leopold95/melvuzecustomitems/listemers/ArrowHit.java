@@ -1,6 +1,6 @@
-package listemers;
+package me.leopold95.melvuzecustomitems.listemers;
 
-import core.Keys;
+import me.leopold95.melvuzecustomitems.core.Keys;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -16,3 +16,4 @@ radius: 5.0
 blindness-delay: 5
 use-sound: ""
 parameter-iterations: 32
+animation-speed: 0.1

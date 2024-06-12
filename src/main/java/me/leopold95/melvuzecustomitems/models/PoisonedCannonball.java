@@ -1,4 +1,4 @@
-package models;
+package me.leopold95.melvuzecustomitems.models;
 
 public class PoisonedCannonball {
     public int lifeTime;
