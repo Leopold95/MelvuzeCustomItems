@@ -4,9 +4,6 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import me.leopold95.melvuzecustomitems.items.BlindnessItem;
 import me.leopold95.melvuzecustomitems.items.InvulnerabilityItem;
 import me.leopold95.melvuzecustomitems.items.PoisonedCannonballItem;
-import me.leopold95.melvuzecustomitems.listemers.ArrowHit;
-import me.leopold95.melvuzecustomitems.listemers.Explosions;
-import me.leopold95.melvuzecustomitems.listemers.ProjectileHit;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -27,10 +24,6 @@ public final class CustomItems extends JavaPlugin {
         new BlindnessItem(this, "blindnessitem");
         new PoisonedCannonballItem(this, "poisonedcannonballitem");
         new InvulnerabilityItem(this, "invulnerabilityitem");
-
-        getServer().getPluginManager().registerEvents(new ProjectileHit(), this);
-        getServer().getPluginManager().registerEvents(new ArrowHit(), this);
-        getServer().getPluginManager().registerEvents(new Explosions(), this);
     }
 
     private ICombatLogX getAPI() {
