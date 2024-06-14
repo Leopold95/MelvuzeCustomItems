@@ -1,11 +1,13 @@
 package me.leopold95.melvuzecustomitems.items;
 
 import me.leopold95.melvuzecustomitems.CustomItems;
+import me.leopold95.melvuzecustomitems.core.Keys;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -47,6 +49,9 @@ public class BlindnessItem extends Item {
 
         for (Entity target : player.getNearbyEntities(radius, radius, radius)) {
             if (!(target instanceof Player))
+                continue;
+
+            if(target.getPersistentDataContainer().has(Keys.INVULNER_ABILITY, PersistentDataType.INTEGER))
                 continue;
 
             ((Player) target).addPotionEffect(pe);
