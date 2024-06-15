@@ -2,9 +2,11 @@ package me.leopold95.melvuzecustomitems.items;
 
 import me.leopold95.melvuzecustomitems.core.Keys;
 import me.leopold95.melvuzecustomitems.CustomItems;
+import me.leopold95.melvuzecustomitems.core.Sounds;
 import me.leopold95.melvuzecustomitems.models.PoisonedCannonball;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LargeFireball;
@@ -18,7 +20,6 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -41,10 +42,10 @@ public class PoisonedCannonballItem  extends Item implements Listener {
         data.explodeRange = getConfig().getInt("explode-range");
         data.velocity = getConfig().getDouble("ball-velocity");
 
-        data.effectPoisonTime = getConfig().getInt("effect-time.poison");
-        data.effectSlowTime = getConfig().getInt("effect-time.slow");
-        data.effectBlindTime = getConfig().getInt("effect-time.blind");
-        data.effectWeaknessTime = getConfig().getInt("effect-time.weak");
+        data.effectPoisonTime = getConfig().getInt("effect-time.poison") * 20;
+        data.effectSlowTime = getConfig().getInt("effect-time.slow") * 20;
+        data.effectBlindTime = getConfig().getInt("effect-time.blind") * 20;
+        data.effectWeaknessTime = getConfig().getInt("effect-time.weak") * 20;
 
         data.poison = new PotionEffect(PotionEffectType.POISON, data.effectPoisonTime, 1);
         data.slow = new PotionEffect(PotionEffectType.SLOW, data.effectSlowTime, 1);
@@ -57,6 +58,7 @@ public class PoisonedCannonballItem  extends Item implements Listener {
         LargeFireball fireball = player.launchProjectile(LargeFireball.class);
 
         fireball.getPersistentDataContainer().set(Keys.POISONED_CANNONBALL, PersistentDataType.INTEGER, 1);
+        fireball.getPersistentDataContainer().set(Keys.POISONED_CANNONBALL_SENDER, PersistentDataType.STRING, player.getName());
 
         fireball.setGravity(true);
         fireball.setDirection(player.getLocation().getDirection());
@@ -110,6 +112,15 @@ public class PoisonedCannonballItem  extends Item implements Listener {
             return;
 
         event.setCancelled(true);
+
+        String sound = getConfig().getString("hit-block-sound");
+        int volume = getConfig().getInt("hit-block-sound-volume");
+        Sounds.playOn(event.getHitBlock().getLocation(), sound, volume, data.explodeRange);
+
+        Bukkit.getScheduler().runTask(CustomItems.plugin, () -> {
+            String senderName = event.getEntity().getPersistentDataContainer().get(Keys.POISONED_CANNONBALL_SENDER, PersistentDataType.STRING);
+            poisonNearPlayer(event.getHitBlock().getLocation(), data.explodeRange, senderName);
+        });
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -123,15 +134,29 @@ public class PoisonedCannonballItem  extends Item implements Listener {
         event.setCancelled(true);
     }
 
-    private void poisonNearPlayer(Location center, double radius){
-        for (Entity ent : center.getNearbyEntities(radius, radius, radius)){
-            if(!(ent instanceof Player))
+    private void poisonNearPlayer(Location center, double radius, String senderName){
+        for (Player player : center.getNearbyEntitiesByType(Player.class, radius)){
+            if(player.getPersistentDataContainer().has(Keys.INVULNER_ABILITY, PersistentDataType.INTEGER))
                 continue;
 
-            ((Player) ent).addPotionEffect(data.poison);
-            ((Player) ent).addPotionEffect(data.slow);
-            ((Player) ent).addPotionEffect(data.blind);
-            ((Player) ent).addPotionEffect(data.weak);
+            if(player.getName().equals(senderName))
+                continue;
+
+            player.addPotionEffect(data.poison);
+            player.addPotionEffect(data.slow);
+            player.addPotionEffect(data.blind);
+            player.addPotionEffect(data.weak);
+        }
+
+        Location location = center.clone();
+
+        for (int i = 0; i < 360; i += 10) {
+            for (int j = 0; j < 360; j += 10) {
+//                double x = Math.sin(Math.toRadians(i)) * Math.cos(Math.toRadians(j));
+//                double y = Math.sin(Math.toRadians(i)) * Math.sin(Math.toRadians(j));
+//                double z = Math.cos(Math.toRadians(i));
+                location.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, location, 1, 0, 0, 0, 0);
+            }
         }
     }
 }
