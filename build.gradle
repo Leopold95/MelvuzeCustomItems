@@ -31,9 +31,12 @@ repositories {
 
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT"
+
+
     implementation files('libs/MelvuzeItemsLib.jar')
+    implementation files('libs/SkinsRestorer.jar')
     // SkinsRestorer API
-    //compileOnly 'net.skinsrestorer:skinsrestorer-api:15.0.0'
+    //compileOnly 'net.skinsrestorer:skinsrestorer-api:15.0.14'
 
     //combat log x
     compileOnly 'com.github.sirblobman.api:core:2.9-SNAPSHOT'

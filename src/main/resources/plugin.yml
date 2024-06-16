@@ -4,6 +4,6 @@ main: me.leopold95.melvuzecustomitems.CustomItems
 api-version: '1.17'
 depend:
   - MelvuzeItemsLib
-  - SkinsRestorer
   - CombatLogX
+  - SkinsRestorer
 

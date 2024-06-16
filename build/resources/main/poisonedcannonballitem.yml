@@ -20,3 +20,7 @@ effect-time:
   blind: 3
   weak: 3
 ball-velocity: 0.5
+
+hit-block-sound: ""
+hit-block-sound-volume: ""
+hit-entity-sound: ""

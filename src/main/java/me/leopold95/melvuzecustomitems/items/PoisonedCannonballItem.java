@@ -60,7 +60,7 @@ public class PoisonedCannonballItem  extends Item implements Listener {
         fireball.getPersistentDataContainer().set(Keys.POISONED_CANNONBALL, PersistentDataType.INTEGER, 1);
         fireball.getPersistentDataContainer().set(Keys.POISONED_CANNONBALL_SENDER, PersistentDataType.STRING, player.getName());
 
-        fireball.setGravity(true);
+        fireball.setGravity(false);
         fireball.setDirection(player.getLocation().getDirection());
         fireball.setVelocity(new Vector(1, 1, 1).multiply(0));
 
@@ -148,14 +148,9 @@ public class PoisonedCannonballItem  extends Item implements Listener {
             player.addPotionEffect(data.weak);
         }
 
-        Location location = center.clone();
-
         for (int i = 0; i < 360; i += 10) {
             for (int j = 0; j < 360; j += 10) {
-//                double x = Math.sin(Math.toRadians(i)) * Math.cos(Math.toRadians(j));
-//                double y = Math.sin(Math.toRadians(i)) * Math.sin(Math.toRadians(j));
-//                double z = Math.cos(Math.toRadians(i));
-                location.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, location, 1, 0, 0, 0, 0);
+                center.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, center, 1, 0, 0, 0, 0);
             }
         }
     }
