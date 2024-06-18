@@ -1,0 +1,23 @@
+material: REDSTONE
+name: "shield"
+lore:
+  - "lore"
+cooldown: 200
+
+enchantments:
+  SILK_TOUCH:
+    level: 1
+    ignored: true
+  KNOCKBACK:
+    level: 1
+    ignored: true
+
+
+max-active-time: 5
+additional-health: 6
+
+hit-sound: ""
+hit-sound-volume: 100
+
+activated-sound: ""
+activated-sound-volume: 100
