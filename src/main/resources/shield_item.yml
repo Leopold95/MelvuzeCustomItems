@@ -1,5 +1,5 @@
 material: REDSTONE
-name: "make them blind"
+name: "shield"
 lore:
   - "lore"
 cooldown: 200
@@ -12,8 +12,12 @@ enchantments:
     level: 1
     ignored: true
 
-radius: 5.0
-blindness-delay: 5
-use-sound: ""
-parameter-iterations: 32
-animation-speed: 0.1
+
+max-active-time: 5
+additional-health: 6
+
+hit-sound: ""
+hit-sound-volume: 100
+
+activated-sound: ""
+activated-sound-volume: 100

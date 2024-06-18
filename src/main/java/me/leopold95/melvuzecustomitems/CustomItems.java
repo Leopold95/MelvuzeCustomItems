@@ -1,9 +1,8 @@
 package me.leopold95.melvuzecustomitems;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import me.leopold95.melvuzecustomitems.items.BlindnessItem;
-import me.leopold95.melvuzecustomitems.items.InvulnerabilityItem;
-import me.leopold95.melvuzecustomitems.items.PoisonedCannonballItem;
+import me.leopold95.melvuzecustomitems.core.SkinManager;
+import me.leopold95.melvuzecustomitems.items.*;
 import net.skinsrestorer.api.SkinsRestorer;
 import net.skinsrestorer.api.SkinsRestorerProvider;
 import org.bukkit.Bukkit;
@@ -17,6 +16,7 @@ public final class CustomItems extends JavaPlugin {
 
     public ICombatLogX combatLogX;
     public SkinsRestorer skinsRestorer;
+    public SkinManager skinManager;
 
 
     @Override
@@ -25,10 +25,13 @@ public final class CustomItems extends JavaPlugin {
 
         combatLogX = getAPI();
         skinsRestorer = SkinsRestorerProvider.get();
+        skinManager = new SkinManager(this);
 
-        new BlindnessItem(this, "blindnessitem");
-        new PoisonedCannonballItem(this, "poisonedcannonballitem");
-        new InvulnerabilityItem(this, "invulnerabilityitem");
+        new BlindnessItem(this, "blindness_item");
+        new PoisonedCannonballItem(this, "poisonedcannonball_item");
+        new InvulnerabilityItem(this, "invulnerability_item");
+        new ShieldItem(this, "shield_item");
+        new CobwebSlow(this, "cobweb_slow_item");
     }
 
     private ICombatLogX getAPI() {

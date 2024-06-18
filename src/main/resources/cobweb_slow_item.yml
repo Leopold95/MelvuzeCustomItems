@@ -1,0 +1,16 @@
+material: REDSTONE
+name: "CobwebSlow"
+lore:
+  - "lore"
+cooldown: 100
+
+enchantments:
+  SILK_TOUCH:
+    level: 1
+    ignored: true
+  KNOCKBACK:
+    level: 1
+    ignored: true
+
+
+range: 10
