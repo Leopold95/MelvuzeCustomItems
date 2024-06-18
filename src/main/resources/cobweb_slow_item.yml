@@ -14,3 +14,6 @@ enchantments:
 
 
 range: 10
+ticks-for-block-replace: 2
+replace-no-air: false
+return-air-time: 40

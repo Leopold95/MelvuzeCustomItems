@@ -1,8 +1,7 @@
-package me.leopold95.melvuzecustomitems.core;
+package me.leopold95.melvuzecustomitems.abstraction;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class RepeatingTask implements Runnable {
     private int taskId;
