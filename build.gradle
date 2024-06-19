@@ -16,11 +16,11 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
-    //skin restorer
-//    maven {
-//        name 'codemc'
-//        url 'https://repo.codemc.org/repository/maven-public/'
-//    }
+
+    //Blue slime core
+    maven {
+        url "https://nexus.sirblobman.xyz/public/"
+    }
 
     //combat log x
     maven {
@@ -31,13 +31,12 @@ repositories {
 
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT"
-
-
+    // Melvuze Items Lib
     implementation files('libs/MelvuzeItemsLib.jar')
-    implementation files('libs/SkinsRestorer.jar')
     // SkinsRestorer API
-    //compileOnly 'net.skinsrestorer:skinsrestorer-api:15.0.14'
-
+    implementation files('libs/SkinsRestorer.jar')
+    // Blue Slime Core
+    compileOnly 'com.github.sirblobman.api:core:2.9-SNAPSHOT'
     //combat log x
     compileOnly 'com.github.sirblobman.api:core:2.9-SNAPSHOT'
     compileOnly 'com.github.sirblobman.combatlogx:api:11.4-SNAPSHOT'

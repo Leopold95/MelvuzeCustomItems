@@ -12,6 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 import ru.melvuze.melvuzeitemslib.api.Item;
@@ -24,8 +26,11 @@ public class CobwebSlow extends Item implements Listener {
 
     private final int range = getConfig().getInt("range");
     private final int ticksForBlockReplace = getConfig().getInt("ticks-for-block-replace");
-    private final int returnAirTime = getConfig().getInt("ticks-for-block-replace");
-    private final boolean replaceAir = false;
+    private final int returnAirTime = getConfig().getInt("return-air-time");
+
+    private final int speedDuration = getConfig().getInt("speed-duration");
+    private final int speedAmplifier = getConfig().getInt("speed-amplifier");
+    private final PotionEffect effectSpeed = new PotionEffect(PotionEffectType.SPEED, speedDuration, speedAmplifier);
 
     public CobwebSlow(CustomItems plugin, String key) {
         super(plugin, key);
@@ -37,6 +42,7 @@ public class CobwebSlow extends Item implements Listener {
         final Vector eyeLocation = player.getEyeLocation().toVector();
         final Vector direction = player.getEyeLocation().getDirection().multiply(range);
 
+        player.addPotionEffect(effectSpeed);
         spawnCobweb(eyeLocation, direction, player.getWorld());
 
         Bukkit.getScheduler().runTaskLater(plugin,
@@ -45,9 +51,7 @@ public class CobwebSlow extends Item implements Listener {
     }
 
     @Override
-    public void onLeftClick(PlayerInteractEvent playerInteractEvent, Player player, ItemStack itemStack) {
-
-    }
+    public void onLeftClick(PlayerInteractEvent playerInteractEvent, Player player, ItemStack itemStack) {}
 
     private void spawnCobweb(Vector eyeLocation, Vector direction, World world) {
         final BlockIterator iter = new BlockIterator(world, eyeLocation, direction, 0, range);
@@ -55,15 +59,28 @@ public class CobwebSlow extends Item implements Listener {
         new RepeatingTask(plugin, 0, ticksForBlockReplace) {
             @Override
             public void run() {
-                if (!iter.hasNext())
+                if (iter != null && iter.hasNext() == false)
                     canncel();
 
-                while (iter.hasNext()) {
-                    Block block = iter.next();
+                Block block = iter.next();
+                Location location = block.getLocation();
 
-                    if ((block.getType() != Material.AIR && replaceAir) || block.getType() == Material.AIR)
-                        block.setType(Material.COBWEB);
+                for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                    Location playerLocation = onlinePlayer.getLocation();
+                    if (playerLocation.getBlockX() == location.getBlockX() &&
+                            playerLocation.getBlockY() == location.getBlockY() &&
+                            playerLocation.getBlockZ() == location.getBlockZ()) {
+
+
+
+
+
+                        //player.sendMessage("На блоке " + block.getType().toString() + " находится игрок " + onlinePlayer.getName());
+                    }
                 }
+
+                if (block.getType() == Material.AIR)
+                    block.setType(Material.COBWEB);
             }
         };
     }
@@ -74,14 +91,17 @@ public class CobwebSlow extends Item implements Listener {
         new RepeatingTask(plugin, 0, ticksForBlockReplace) {
             @Override
             public void run() {
-                if (!iter.hasNext())
+                if (iter != null && iter.hasNext() == false)
                     canncel();
 
-                while (iter.hasNext()) {
-                    Block block = iter.next();
+                Block block = iter.next();
+                if (block.getType() == Material.COBWEB)
                     block.setType(Material.AIR);
-                }
             }
         };
+    }
+
+    private void tryHurtPlayer(){
+
     }
 }
