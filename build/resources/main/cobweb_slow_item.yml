@@ -13,7 +13,13 @@ enchantments:
     ignored: true
 
 
-range: 10
-ticks-for-block-replace: 2
-replace-no-air: false
-return-air-time: 40
+range: 10 #радиус полета паутины
+ticks-for-block-replace: 2 #тики для справна/удаления блоков
+return-air-time: 40 #тиков до удаления блоков паутины
+
+speed-duration: 20 #длительность скорости
+speed-amplifier: 1 #множитель/уровень скорости
+
+
+
+
