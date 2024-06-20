@@ -51,7 +51,7 @@ public class BlindnessItem extends Item {
             if (!(target instanceof Player))
                 continue;
 
-            if(target.getPersistentDataContainer().has(Keys.INVULNER_ABILITY, PersistentDataType.INTEGER))
+            if(target.getPersistentDataContainer().has(Keys.INVULNERABILITY_ACTIVE, PersistentDataType.INTEGER))
                 continue;
 
             ((Player) target).addPotionEffect(pe);

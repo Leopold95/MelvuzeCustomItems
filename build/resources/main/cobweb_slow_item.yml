@@ -1,4 +1,4 @@
-material: REDSTONE
+material: STRING
 name: "CobwebSlow"
 lore:
   - "lore"
@@ -17,8 +17,20 @@ range: 10 #радиус полета паутины
 ticks-for-block-replace: 2 #тики для справна/удаления блоков
 return-air-time: 40 #тиков до удаления блоков паутины
 
-speed-duration: 20 #длительность скорости
-speed-amplifier: 1 #множитель/уровень скорости
+user:
+  speed-duration: 20 #длительность скорости
+  speed-amplifier: 1 #множитель/уровень скорости
+
+  vampirism-duration: 80 #длительность вапризима, при попадании
+  vampirism-given-health: 5.0 #количево хп, которое будет даваться при попадании
+  vampirism-given-sound: ""
+  vampirism-given-sound-volume: 100
+  vampirism-given-sound-message: "&cНа вас наложен вампиризм"
+  vampirism-removed-sound-message: "&cС вас снять вампиризм"
+
+target:
+  slowness-amplifier: 2 #уровень замедления цели, при попадании
+  slowness-duration: 60 #длительность замедления, при попадании
 
 
 

@@ -18,9 +18,9 @@ repositories {
     }
 
     //Blue slime core
-    maven {
-        url "https://nexus.sirblobman.xyz/public/"
-    }
+//    maven {
+//        url "https://nexus.sirblobman.xyz/public/"
+//    }
 
     //combat log x
     maven {
@@ -36,7 +36,7 @@ dependencies {
     // SkinsRestorer API
     implementation files('libs/SkinsRestorer.jar')
     // Blue Slime Core
-    compileOnly 'com.github.sirblobman.api:core:2.9-SNAPSHOT'
+    //compileOnly 'com.github.sirblobman.api:core:2.9-SNAPSHOT'
     //combat log x
     compileOnly 'com.github.sirblobman.api:core:2.9-SNAPSHOT'
     compileOnly 'com.github.sirblobman.combatlogx:api:11.4-SNAPSHOT'

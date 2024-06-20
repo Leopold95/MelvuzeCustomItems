@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LargeFireball;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -136,7 +135,7 @@ public class PoisonedCannonballItem  extends Item implements Listener {
 
     private void poisonNearPlayer(Location center, double radius, String senderName){
         for (Player player : center.getNearbyEntitiesByType(Player.class, radius)){
-            if(player.getPersistentDataContainer().has(Keys.INVULNER_ABILITY, PersistentDataType.INTEGER))
+            if(player.getPersistentDataContainer().has(Keys.INVULNERABILITY_ACTIVE, PersistentDataType.INTEGER))
                 continue;
 
             if(player.getName().equals(senderName))

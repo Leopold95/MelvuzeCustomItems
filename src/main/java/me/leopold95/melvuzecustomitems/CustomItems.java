@@ -3,6 +3,7 @@ package me.leopold95.melvuzecustomitems;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import me.leopold95.melvuzecustomitems.core.SkinManager;
 import me.leopold95.melvuzecustomitems.items.*;
+import me.leopold95.melvuzecustomitems.listeners.PlayerJoin;
 import net.skinsrestorer.api.SkinsRestorer;
 import net.skinsrestorer.api.SkinsRestorerProvider;
 import org.bukkit.Bukkit;
@@ -32,6 +33,8 @@ public final class CustomItems extends JavaPlugin {
         new InvulnerabilityItem(this, "invulnerability_item");
         new ShieldItem(this, "shield_item");
         new CobwebSlow(this, "cobweb_slow_item");
+
+        getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
     }
 
     private ICombatLogX getAPI() {
