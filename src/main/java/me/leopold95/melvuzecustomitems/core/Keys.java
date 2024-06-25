@@ -9,8 +9,9 @@ public class Keys {
 
     public static NamespacedKey INVULNERABILITY_ACTIVE = new NamespacedKey(CustomItems.plugin, "INVULNERABILITY_ACTIVE");
 
-    public static NamespacedKey SHIELD_ACTIVE = new NamespacedKey(CustomItems.plugin, "SHIELD_ACTIVE");
     public static NamespacedKey SHIELD_HEALTH = new NamespacedKey(CustomItems.plugin, "SHIELD_HEALTH");
 
     public static NamespacedKey VAMPIRISM_ACTIVE = new NamespacedKey(CustomItems.plugin, "VAMPIRISM_ACTIVE");
+
+    public static NamespacedKey INFECTION_STEP = new NamespacedKey(CustomItems.plugin, "INFECTION_STEP");
 }

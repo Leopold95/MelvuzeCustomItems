@@ -33,6 +33,7 @@ public final class CustomItems extends JavaPlugin {
         new InvulnerabilityItem(this, "invulnerability_item");
         new ShieldItem(this, "shield_item");
         new CobwebSlow(this, "cobweb_slow_item");
+        new InfectionItem(this, "infection_item");
 
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
     }

@@ -12,12 +12,17 @@ enchantments:
     level: 1
     ignored: true
 
+#тиков чтобы обновить анимации щита
+play-animation-tick: 1 #from 1 to 20
 
-max-active-time: 5
-additional-health: 6
+max-active-time: 80 #максимальная длительность
+additional-health: 6.0 #дополнительное здоровье
 
-hit-sound: ""
+hit-sound: "" #попадание
 hit-sound-volume: 100
 
-activated-sound: ""
+activated-sound: "" #активация
 activated-sound-volume: 100
+
+ended-sound: "" #завершение
+ended-sound-volume: 100

@@ -18,7 +18,10 @@ public class PlayerJoin implements Listener {
         if(player.getPersistentDataContainer().has(Keys.INVULNERABILITY_ACTIVE, PersistentDataType.INTEGER))
             player.getPersistentDataContainer().remove(Keys.INVULNERABILITY_ACTIVE);
 
-        if(player.getPersistentDataContainer().has(Keys.SHIELD_ACTIVE, PersistentDataType.INTEGER))
-            player.getPersistentDataContainer().remove(Keys.SHIELD_ACTIVE);
+        if(player.getPersistentDataContainer().has(Keys.SHIELD_HEALTH, PersistentDataType.DOUBLE))
+            player.getPersistentDataContainer().remove(Keys.SHIELD_HEALTH);
+
+        if(player.getPersistentDataContainer().has(Keys.INFECTION_STEP, PersistentDataType.INTEGER))
+            player.getPersistentDataContainer().remove(Keys.INFECTION_STEP);
     }
 }

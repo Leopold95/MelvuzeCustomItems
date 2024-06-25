@@ -13,4 +13,8 @@ public abstract class RepeatingTask implements Runnable {
     public void canncel() {
         Bukkit.getScheduler().cancelTask(taskId);
     }
+
+    public boolean isCanceled(){
+        return Bukkit.getScheduler().isCurrentlyRunning(taskId);
+    }
 }

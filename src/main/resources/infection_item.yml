@@ -1,0 +1,8 @@
+material: FIREWORK_STAR
+name: "make them blind"
+lore:
+  - "lore"
+cooldown: 200
+
+range: 5.0
+max-steps: 4
