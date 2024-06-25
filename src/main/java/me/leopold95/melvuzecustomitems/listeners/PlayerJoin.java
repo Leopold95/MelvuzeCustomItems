@@ -23,5 +23,8 @@ public class PlayerJoin implements Listener {
 
         if(player.getPersistentDataContainer().has(Keys.INFECTION_STEP, PersistentDataType.INTEGER))
             player.getPersistentDataContainer().remove(Keys.INFECTION_STEP);
+
+        if(player.getPersistentDataContainer().has(Keys.INFECTION_PROTECT, PersistentDataType.INTEGER))
+            player.getPersistentDataContainer().remove(Keys.INFECTION_PROTECT);
     }
 }

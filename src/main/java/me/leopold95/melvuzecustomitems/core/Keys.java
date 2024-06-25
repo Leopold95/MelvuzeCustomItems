@@ -14,4 +14,5 @@ public class Keys {
     public static NamespacedKey VAMPIRISM_ACTIVE = new NamespacedKey(CustomItems.plugin, "VAMPIRISM_ACTIVE");
 
     public static NamespacedKey INFECTION_STEP = new NamespacedKey(CustomItems.plugin, "INFECTION_STEP");
+    public static NamespacedKey INFECTION_PROTECT = new NamespacedKey(CustomItems.plugin, "INFECTION_PROTECT");
 }
