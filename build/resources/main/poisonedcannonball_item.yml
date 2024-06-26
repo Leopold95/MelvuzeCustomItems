@@ -4,14 +4,6 @@ lore:
   - "lore"
 cooldown: 200
 
-enchantments:
-  SILK_TOUCH:
-    level: 1
-    ignored: true
-  KNOCKBACK:
-    level: 1
-    ignored: true
-
 life-time: 5
 explode-range: 5
 effect-time:

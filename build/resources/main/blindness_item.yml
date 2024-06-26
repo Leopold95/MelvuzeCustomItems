@@ -4,14 +4,6 @@ lore:
   - "lore"
 cooldown: 200
 
-enchantments:
-  SILK_TOUCH:
-    level: 1
-    ignored: true
-  KNOCKBACK:
-    level: 1
-    ignored: true
-
 radius: 5.0
 blindness-delay: 5
 use-sound: ""

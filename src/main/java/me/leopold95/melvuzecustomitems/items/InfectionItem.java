@@ -5,9 +5,7 @@ import me.leopold95.melvuzecustomitems.core.Keys;
 import me.leopold95.melvuzecustomitems.core.Sounds;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,8 +15,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 import ru.melvuze.melvuzeitemslib.api.Item;
-
-import java.security.Key;
 
 public class InfectionItem extends Item implements Listener {
     private CustomItems plugin;
@@ -81,8 +77,7 @@ public class InfectionItem extends Item implements Listener {
 
         setInfection(hittedPlayer, ownInfectionLvl + 1);
 
-        if(player.getPersistentDataContainer().has(Keys.INFECTION_STEP, PersistentDataType.INTEGER))
-            player.getPersistentDataContainer().remove(Keys.INFECTION_STEP);
+        removeInfection(player);
 
         setProtection(player);
     }
@@ -97,6 +92,15 @@ public class InfectionItem extends Item implements Listener {
         setRemoveTimer(target);
 
         Sounds.playTo(target, gotSound, gotSoundVolume);
+    }
+
+    /**
+     * Удаляет инфекцию с игрока
+     * @param player игрок, с которого убрать инфекцию
+     */
+    private void removeInfection(Player player){
+        player.getPersistentDataContainer().remove(Keys.INFECTION_STEP);
+        Sounds.playTo(player, endSound, endSoundVolume);
     }
 
     /**
@@ -117,8 +121,9 @@ public class InfectionItem extends Item implements Listener {
      */
     private void setRemoveTimer(Player player){
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            if(player.getPersistentDataContainer().has(Keys.INFECTION_STEP, PersistentDataType.INTEGER))
-                player.getPersistentDataContainer().remove(Keys.INFECTION_STEP);
+            if(player.getPersistentDataContainer().has(Keys.INFECTION_STEP, PersistentDataType.INTEGER)){
+                removeInfection(player);
+            }
         }, maxDuration);
     }
 
