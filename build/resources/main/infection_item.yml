@@ -1,0 +1,16 @@
+material: POISONOUS_POTATO
+name: "infection"
+lore:
+  - "lore"
+cooldown: 200
+
+range: 5.0
+max-steps: 4
+max-duration: 60
+protection-delay: 100
+
+infection-got-sound: ""
+infection-got-sound-volume: 100
+
+infection-end-sound: ""
+infection-end-sound-volume: 100
