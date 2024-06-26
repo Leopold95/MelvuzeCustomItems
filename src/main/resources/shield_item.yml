@@ -4,9 +4,6 @@ lore:
   - "lore"
 cooldown: 200
 
-#тиков чтобы обновить анимации щита
-play-animation-tick: 1 #from 1 to 20
-
 max-active-time: 80 #максимальная длительность
 additional-health: 6.0 #дополнительное здоровье
 

@@ -5,6 +5,7 @@ import me.leopold95.melvuzecustomitems.core.Keys;
 import me.leopold95.melvuzecustomitems.core.Sounds;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -17,11 +18,14 @@ import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 import ru.melvuze.melvuzeitemslib.api.Item;
 
+import java.security.Key;
+
 public class InfectionItem extends Item implements Listener {
     private CustomItems plugin;
 
     private final double range = getConfig().getDouble("range");
     private final int maxSteps = getConfig().getInt("max-steps");
+    private final int maxDuration = getConfig().getInt("max-duration");
     private final int protectionDelay = getConfig().getInt("protection-delay");
 
     private final String gotSound = getConfig().getString("infection-got-sound");
@@ -46,9 +50,7 @@ public class InfectionItem extends Item implements Listener {
         if (hittedPlayer.getPersistentDataContainer().has(Keys.INFECTION_PROTECT, PersistentDataType.INTEGER))
             return;
 
-        hittedPlayer.sendMessage("u get infection");
-        hittedPlayer.getPersistentDataContainer().set(Keys.INFECTION_STEP, PersistentDataType.INTEGER, 1);
-        Sounds.playTo(hittedPlayer, gotSound, gotSoundVolume);
+        setInfection(hittedPlayer, 1);
     }
 
     @Override
@@ -59,7 +61,12 @@ public class InfectionItem extends Item implements Listener {
         if(!event.getAction().isRightClick())
             return;
 
-        Player hittedPlayer = tryHitPlayer(event.getPlayer());
+        Player player = event.getPlayer();
+
+        if(!player.getPersistentDataContainer().has(Keys.INFECTION_STEP, PersistentDataType.INTEGER))
+            return;
+
+        Player hittedPlayer = tryHitPlayer(player);
 
         if(hittedPlayer == null)
             return;
@@ -67,26 +74,60 @@ public class InfectionItem extends Item implements Listener {
         if (hittedPlayer.getPersistentDataContainer().has(Keys.INFECTION_PROTECT, PersistentDataType.INTEGER))
             return;
 
-        Player player = event.getPlayer();
-
         int ownInfectionLvl = player.getPersistentDataContainer().get(Keys.INFECTION_STEP, PersistentDataType.INTEGER);
 
         if(ownInfectionLvl > maxSteps)
             return;
 
-        hittedPlayer.getPersistentDataContainer().set(Keys.INFECTION_STEP, PersistentDataType.INTEGER, ownInfectionLvl + 1);
+        setInfection(hittedPlayer, ownInfectionLvl + 1);
+
+        if(player.getPersistentDataContainer().has(Keys.INFECTION_STEP, PersistentDataType.INTEGER))
+            player.getPersistentDataContainer().remove(Keys.INFECTION_STEP);
+
+        setProtection(player);
     }
 
-    private void setProtectDelay(Player player){
+    /**
+     * Накладывает еффект инфекции на игрока
+     * @param target цель наложения
+     */
+    private void setInfection(Player target, int infectionLevel){
+        target.sendMessage("u get infection " + infectionLevel);
+        target.getPersistentDataContainer().set(Keys.INFECTION_STEP, PersistentDataType.INTEGER, infectionLevel);
+        setRemoveTimer(target);
+
+        Sounds.playTo(target, gotSound, gotSoundVolume);
+    }
+
+    /**
+     * Устанавливает защиту от заразы
+     * @param player игроку, для которого будет установлена защита
+     */
+    private void setProtection(Player player){
+        player.getPersistentDataContainer().set(Keys.INFECTION_PROTECT, PersistentDataType.INTEGER, 1);
+
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             player.getPersistentDataContainer().remove(Keys.INFECTION_PROTECT);
         }, protectionDelay);
     }
 
-    private void playAnimation(Player player){
-
+    /**
+     * Устанавливает таймер на автоматическое удоление заразы
+     * @param player игрок, кому убрать заразу
+     */
+    private void setRemoveTimer(Player player){
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            if(player.getPersistentDataContainer().has(Keys.INFECTION_STEP, PersistentDataType.INTEGER))
+                player.getPersistentDataContainer().remove(Keys.INFECTION_STEP);
+        }, maxDuration);
     }
 
+
+    /**
+     * Рейкаст на опредленную дистанцию, чтбы узнать попвли ли в другого игрока инфекцией
+     * @param whoCasted кастовщик инфекции
+     * @return игрок, в которого попали либо null
+     */
     private Player tryHitPlayer(Player whoCasted){
         World whoCastedWorld = whoCasted.getWorld();
         Vector direction = whoCasted.getEyeLocation().getDirection().multiply(range);

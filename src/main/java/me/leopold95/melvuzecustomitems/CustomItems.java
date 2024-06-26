@@ -1,7 +1,9 @@
 package me.leopold95.melvuzecustomitems;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import me.leopold95.melvuzecustomitems.core.Config;
 import me.leopold95.melvuzecustomitems.core.SkinManager;
+import me.leopold95.melvuzecustomitems.core.animations.AnimationWorker;
 import me.leopold95.melvuzecustomitems.items.*;
 import me.leopold95.melvuzecustomitems.listeners.PlayerJoin;
 import net.skinsrestorer.api.SkinsRestorer;
@@ -19,14 +21,20 @@ public final class CustomItems extends JavaPlugin {
     public SkinsRestorer skinsRestorer;
     public SkinManager skinManager;
 
+    private AnimationWorker animationWorker;
+
 
     @Override
     public void onEnable() {
         plugin = this;
 
+        Config.register(this);
+
         combatLogX = getAPI();
         skinsRestorer = SkinsRestorerProvider.get();
         skinManager = new SkinManager(this);
+
+        animationWorker = new AnimationWorker(this, Config.getInt("animation-update-ticks"));
 
         new BlindnessItem(this, "blindness_item");
         new PoisonedCannonballItem(this, "poisonedcannonball_item");
@@ -36,6 +44,8 @@ public final class CustomItems extends JavaPlugin {
         new InfectionItem(this, "infection_item");
 
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+
+        animationWorker.run();
     }
 
     private ICombatLogX getAPI() {

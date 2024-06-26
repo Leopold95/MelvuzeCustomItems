@@ -18,8 +18,6 @@ import ru.melvuze.melvuzeitemslib.api.Item;
 public class ShieldItem extends Item implements Listener {
     private CustomItems plugin;
 
-    final int animationTicks = getConfig().getInt("play-animation-tick");
-
     final int maxActiveTime = getConfig().getInt("max-active-time");
     final double additionalHealth = getConfig().getDouble("additional-health");
 
@@ -43,16 +41,13 @@ public class ShieldItem extends Item implements Listener {
 
     @Override
     public void onRightClick(PlayerInteractEvent playerInteractEvent, Player player, ItemStack itemStack) {
-        playShieldActiveAnimation(player, maxActiveTime, animationTicks);
+        //playShieldActiveAnimation(player, maxActiveTime, animationTicks);
 
         Sounds.playTo(player, activatedSound, activatedSoundVolume);
         player.getPersistentDataContainer().set(Keys.SHIELD_HEALTH, PersistentDataType.DOUBLE, additionalHealth);
 
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            if(player.getPersistentDataContainer().has(Keys.SHIELD_HEALTH, PersistentDataType.DOUBLE))
-                return;
-            player.getPersistentDataContainer().remove(Keys.SHIELD_HEALTH);
-            Sounds.playTo(player, endedSound, endedVolume);
+            remove(player);
         }, maxActiveTime);
     }
 
@@ -79,13 +74,18 @@ public class ShieldItem extends Item implements Listener {
             currntSheild -= damage;
             target.getPersistentDataContainer().set(Keys.SHIELD_HEALTH, PersistentDataType.DOUBLE, currntSheild);
         } else {
-            target.getPersistentDataContainer().remove(Keys.SHIELD_HEALTH);
+            remove(target);
+
             double newDamage = currntSheild - damage;
             event.setDamage(newDamage);
         }
 
-
         Sounds.playTo(damager, hitSound, hitSoundVolume);
+    }
+
+    private void remove(Player player){
+        player.getPersistentDataContainer().remove(Keys.SHIELD_HEALTH);
+        Sounds.playTo(player, endedSound, endedVolume);
     }
 
     private void playShieldActiveAnimation(Player player, int duration, int update){
