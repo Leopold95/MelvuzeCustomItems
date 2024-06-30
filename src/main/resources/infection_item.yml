@@ -14,3 +14,7 @@ infection-got-sound-volume: 100
 
 infection-end-sound: ""
 infection-end-sound-volume: 100
+
+effects:
+  poison: 80
+  hunger: 80

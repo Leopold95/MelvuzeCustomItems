@@ -4,13 +4,16 @@ lore:
   - "lore"
 cooldown: 200
 
-life-time: 5
+life-time: 100
 explode-range: 5
 effect-time:
-  poison: 8
-  slow: 8
-  blind: 3
-  weak: 3
+  poison: 160
+  slow: 160
+  blind: 90
+  weak: 90
+
+weak-chance: 50
+
 ball-velocity: 0.5
 
 hit-block-sound: ""

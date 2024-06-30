@@ -150,6 +150,12 @@ public class CobwebSlow extends Item implements Listener {
         giveVampirism(whoCasted);
     }
 
+    /**
+     * Удаляет запавненную паутину
+     * @param eyeLocation
+     * @param direction
+     * @param world
+     */
     private void removeCobweb(Vector eyeLocation, Vector direction, World world) {
         final BlockIterator iter = new BlockIterator(world, eyeLocation, direction, 0, range);
 
@@ -169,6 +175,10 @@ public class CobwebSlow extends Item implements Listener {
         };
     }
 
+    /**
+     * Дает еффет вампиризма цели
+     * @param player цель наложения эффекта
+     */
     private void giveVampirism(Player player){
         player.getPersistentDataContainer().set(Keys.VAMPIRISM_ACTIVE, PersistentDataType.INTEGER, 1);
         Sounds.playTo(player, vampirismGiveSound, vampirismGiveSoundVolume);
@@ -178,9 +188,5 @@ public class CobwebSlow extends Item implements Listener {
             player.getPersistentDataContainer().remove(Keys.VAMPIRISM_ACTIVE);
             player.sendActionBar(vampirismRemoveMessage);
         }, vampirismDuration);
-    }
-
-    private void tryHurtPlayer(){
-
     }
 }

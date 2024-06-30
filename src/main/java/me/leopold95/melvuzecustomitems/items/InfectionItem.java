@@ -12,6 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 import ru.melvuze.melvuzeitemslib.api.Item;
@@ -30,10 +32,18 @@ public class InfectionItem extends Item implements Listener {
     private final String endSound = getConfig().getString("infection-end-sound");
     private final int endSoundVolume = getConfig().getInt("infection-end-sound-volume");
 
+    private final int poisonDuration = getConfig().getInt("effects.poison");
+    private final PotionEffect potionPoison = new PotionEffect(PotionEffectType.POISON, poisonDuration, 1);
+
+    private final int hungerDuration = getConfig().getInt("effects.hunger");
+    private final PotionEffect potionHunger = new PotionEffect(PotionEffectType.POISON, hungerDuration, 1);
+
+
     public InfectionItem(CustomItems plugin, String key) {
         super(plugin, key);
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
+
     }
 
     @Override
@@ -87,9 +97,12 @@ public class InfectionItem extends Item implements Listener {
      * @param target цель наложения
      */
     private void setInfection(Player target, int infectionLevel){
-        target.sendMessage("u get infection " + infectionLevel);
+        //target.sendMessage("u get infection " + infectionLevel);
         target.getPersistentDataContainer().set(Keys.INFECTION_STEP, PersistentDataType.INTEGER, infectionLevel);
         setRemoveTimer(target);
+
+        target.addPotionEffect(potionPoison);
+        target.addPotionEffect(potionHunger);
 
         Sounds.playTo(target, gotSound, gotSoundVolume);
     }
@@ -100,6 +113,8 @@ public class InfectionItem extends Item implements Listener {
      */
     private void removeInfection(Player player){
         player.getPersistentDataContainer().remove(Keys.INFECTION_STEP);
+        player.removePotionEffect(PotionEffectType.POISON);
+        player.removePotionEffect(PotionEffectType.HUNGER);
         Sounds.playTo(player, endSound, endSoundVolume);
     }
 

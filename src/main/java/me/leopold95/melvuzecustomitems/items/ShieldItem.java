@@ -41,8 +41,6 @@ public class ShieldItem extends Item implements Listener {
 
     @Override
     public void onRightClick(PlayerInteractEvent playerInteractEvent, Player player, ItemStack itemStack) {
-        //playShieldActiveAnimation(player, maxActiveTime, animationTicks);
-
         Sounds.playTo(player, activatedSound, activatedSoundVolume);
         player.getPersistentDataContainer().set(Keys.SHIELD_HEALTH, PersistentDataType.DOUBLE, additionalHealth);
 
@@ -83,44 +81,12 @@ public class ShieldItem extends Item implements Listener {
         Sounds.playTo(damager, hitSound, hitSoundVolume);
     }
 
+    /**
+     * Удаляет щит с игрока
+     * @param player игрок
+     */
     private void remove(Player player){
         player.getPersistentDataContainer().remove(Keys.SHIELD_HEALTH);
         Sounds.playTo(player, endedSound, endedVolume);
-    }
-
-    private void playShieldActiveAnimation(Player player, int duration, int update){
-            new RepeatingTask(plugin, 0, update) {
-            long ticksPassed;
-
-            @Override
-            public void run() {
-                if(ticksPassed == duration || !player.getPersistentDataContainer().has(Keys.SHIELD_HEALTH, PersistentDataType.DOUBLE)){
-                    canncel();
-                    player.getPersistentDataContainer().remove(Keys.SHIELD_HEALTH);
-                    Sounds.playTo(player, endedSound, endedVolume);
-                    return;
-                }
-
-                Location location = player.getLocation();
-
-                //location.getWorld().spawnParticle(Particle.REDSTONE, location.add(.5, 0, .5), 1, option);
-                location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(.3, 0, .3), 1, option);
-                location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(-.3, 0, -.3), 1, option);
-                location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(-.3, 0, .3), 1, option);
-                location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(.3, 0, -.3), 1, option);
-
-                location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(.3, 1, .3), 1, option);
-                location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(-.3, 1, -.3), 1, option);
-                location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(-.3, 1, .3), 1, option);
-                location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(.3, 1, -.3), 1, option);
-
-                location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(.3, 2, .3), 1, option);
-                location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(-.3, 2, -.3), 1, option);
-                location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(-.3, 2, .3), 1, option);
-                location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(.3, 2, -.3), 1, option);
-
-                ticksPassed++;
-            }
-        };
     }
 }
