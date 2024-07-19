@@ -3,6 +3,7 @@ name: "infection"
 lore:
   - "lore"
 cooldown: 200
+cooldown-message: "До использования осталось %time%"
 
 range: 5.0
 max-steps: 4

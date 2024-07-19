@@ -3,6 +3,7 @@ name: "BAAM"
 lore:
   - "lore"
 cooldown: 200
+cooldown-message: "До использования осталось %time%"
 
 life-time: 100
 explode-range: 5
@@ -11,6 +12,9 @@ effect-time:
   slow: 160
   blind: 90
   weak: 90
+
+weak-chance: 50
+
 ball-velocity: 0.5
 
 hit-block-sound: ""

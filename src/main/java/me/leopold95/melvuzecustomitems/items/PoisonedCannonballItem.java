@@ -128,9 +128,8 @@ public class PoisonedCannonballItem  extends Item implements Listener {
             player.addPotionEffect(poison);
             player.addPotionEffect(slow);
             player.addPotionEffect(blind);
+            player.addPotionEffect(weak);
 
-            if(rundom(weakChance))
-                player.addPotionEffect(weak);
 
         }
 
@@ -139,9 +138,5 @@ public class PoisonedCannonballItem  extends Item implements Listener {
                 center.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, center, 1, 0, 0, 0, 0);
             }
         }
-    }
-
-    private boolean rundom(int chance){
-        return false;
     }
 }

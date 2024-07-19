@@ -3,6 +3,7 @@ name: "shield"
 lore:
   - "lore"
 cooldown: 200
+cooldown-message: "До использования осталось %time%"
 
 max-active-time: 80 #максимальная длительность
 additional-health: 6.0 #дополнительное здоровье

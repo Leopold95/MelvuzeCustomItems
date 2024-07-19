@@ -3,6 +3,7 @@ name: "make them blind"
 lore:
   - "lore"
 cooldown: 200
+cooldown-message: "До использования осталось %time%"
 
 radius: 5.0
 blindness-delay: 5

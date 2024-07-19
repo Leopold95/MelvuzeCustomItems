@@ -53,9 +53,6 @@ public class BlindnessItem extends Item {
         }
     }
 
-    @Override
-    public void onLeftClick(PlayerInteractEvent playerInteractEvent, Player player, ItemStack itemStack) {}
-
     public void playSoundWithRadius(Location location, Sound sound, float radius, float volume, float pitch) {
         for (Player player : location.getWorld().getPlayers()) {
             if (player.getLocation().distance(location) <= radius) {

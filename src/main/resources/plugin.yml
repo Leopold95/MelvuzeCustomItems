@@ -5,5 +5,7 @@ api-version: '1.17'
 depend:
   - MelvuzeItemsLib
   - CombatLogX
+softdepend:
+  - ChangeSkinX
   - SkinsRestorer
 

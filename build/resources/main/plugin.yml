@@ -1,9 +1,11 @@
 name: MelvuzeCustomItems
-version: '0.1-BETA'
+version: '1.0'
 main: me.leopold95.melvuzecustomitems.CustomItems
 api-version: '1.17'
 depend:
   - MelvuzeItemsLib
   - CombatLogX
+softdepend:
+  - ChangeSkinX
   - SkinsRestorer
 

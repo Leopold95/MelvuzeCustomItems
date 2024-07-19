@@ -3,6 +3,7 @@ name: "CobwebSlow"
 lore:
   - "lore"
 cooldown: 100
+cooldown-message: "До использования осталось %time%"
 
 range: 10 #радиус полета паутины
 ticks-for-block-replace: 2 #тики для справна/удаления блоков

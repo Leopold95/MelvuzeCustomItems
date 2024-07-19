@@ -3,6 +3,7 @@ name: "BAAM"
 lore:
   - "lore"
 cooldown: 200
+cooldown-message: "До использования осталось %time%"
 
 life-time: 100
 explode-range: 5
