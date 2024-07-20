@@ -12,3 +12,12 @@ banned-wg-regions:
   - "rg_2"
 
 animation:
+  spawn-second: 40
+  radius:
+    max: 2
+    min: 0.5
+    step: -0.035
+  speed: 0.15
+  down:
+    step: 0.05
+    max: 3

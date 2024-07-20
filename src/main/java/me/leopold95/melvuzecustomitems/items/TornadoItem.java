@@ -9,99 +9,147 @@ import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 import ru.melvuze.melvuzeitemslib.api.Item;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class TornadoItem extends Item {
     private CustomItems plugin;
+    private Item item;
 
     private final double range = getConfig().getDouble("range");
     private final int duration = getConfig().getInt("duration");
     private final int stepTime = getConfig().getInt("step-time");
     private final double blockTpStep = getConfig().getDouble("block-tp-step");
     private final List<String> bannedRegions = getConfig().getStringList("banned-wg-regions");
+    private final Particle.DustOptions data = new Particle.DustOptions(Color.AQUA, 3);
 
     public TornadoItem(CustomItems plugin, String key) {
         super(plugin, key);
         this.plugin = plugin;
+        item = this;
     }
 
     @Override
     public void onRightClick(PlayerInteractEvent playerInteractEvent, Player player, ItemStack itemStack) {
-        RepeatingTask task =  beginAnimation(player.getLocation());
+        Location loc = player.getLocation().clone();
 
-//        Bukkit.getScheduler().runTaskLater(plugin, ()-> {
-//            task.canncel();
-//        }, 300);
+        RepeatingTask task =  beginAnimation(loc);
+        AtomicReference<RepeatingTask> task1 = new AtomicReference<>();
+        
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            task1.set(beginAnimation(loc));
+        }, getConfig().getInt("animation.spawn-second"));
 
-        new RepeatingTask(plugin, 0, stepTime) {
-            int stepsPassed = 0;
+        Bukkit.getScheduler().runTaskLater(plugin, ()-> {
+            task.canncel();
+            task1.get().canncel();
+        }, 300);
 
-            private final Location center = player.getLocation().clone();
-
-            @Override
-            public void run() {
-                if(stepsPassed == duration){
-                    canncel();
-                    task.canncel();
-                    return;
-                }
-
-                for(Player player: center.getNearbyEntitiesByType(Player.class, range)){
-                    Location newLocation = center.subtract(blockTpStep, 0, blockTpStep);
-                    player.teleport(newLocation);
-                }
-
-                stepsPassed++;
-            }
-        };
+//        new RepeatingTask(plugin, 0, stepTime) {
+//            int stepsPassed = 0;
+//
+//            private final Location center = player.getLocation().clone();
+//
+//            @Override
+//            public void run() {
+//                if(stepsPassed == duration){
+//                    canncel();
+//                    task.canncel();
+//                    return;
+//                }
+//
+//                for(Player player: center.getNearbyEntitiesByType(Player.class, range)){
+//                    Location newLocation = center.subtract(blockTpStep, 0, blockTpStep);
+//                    player.teleport(newLocation);
+//                }
+//
+//                stepsPassed++;
+//            }
+//        };
     }
 
     private RepeatingTask beginAnimation(Location center){
+        TornadoAnimation animation = new TornadoAnimation(center.clone(), data, item, false);
+        TornadoAnimation animation1 = new TornadoAnimation(center.clone(), data, item, true);
+
+
         return new RepeatingTask(plugin, 0, 1) {
-            private final Particle.DustOptions data = new Particle.DustOptions(Color.AQUA, 3);
 
-            double angle = 0;
-
-            double maxRadius = 2;
-            double minRadius = 0.5;
-            double currentRadius = maxRadius;
-            double radiusStep = -0.035;
-
-            double speed = 0.15;
-
-            double downStep = 0.05;
-            double Y = center.getBlockY();
-            double maxDown = 3;
 
             @Override
             public void run() {
-                if (angle >= 360)
-                    angle = 0;
-
-                if(currentRadius <= minRadius)
-                    currentRadius = minRadius;
-
-                if(currentRadius >= maxRadius)
-                    currentRadius = maxRadius;
-
-                if(center.getBlockY() - Y >= maxDown){
-                    Y = center.getBlockY();
-                    currentRadius = maxRadius;
-                }
-
-                double x = center.getX() + currentRadius * Math.cos(angle);
-                double z = center.getZ() + currentRadius * Math.sin(angle);
-
-                Location particleLocation = new Location(center.getWorld(), x, Y, z);
-                center.getWorld().spawnParticle(Particle.REDSTONE, particleLocation, 0, data);
-
-                Y -= downStep;
-                angle += speed;
-                currentRadius += radiusStep;
+                animation.update();
+                animation1.update();
             }
         };
+    }
+}
+
+class TornadoAnimation{
+    private Location center;
+    private Particle.DustOptions data;
+    private boolean reversed;
+
+    private double angle = 0;
+
+    private double maxRadius;
+    private double minRadius;
+    private double currentRadius;
+    private double radiusStep;
+
+    private double speed;
+
+    private double downStep;
+    private double Y;
+    private double maxDown;
+
+    public TornadoAnimation(Location center, Particle.DustOptions data, Item item, boolean reversed){
+        this.center = center;
+        this.data = data;
+        this.reversed = reversed;
+
+        maxRadius = item.getConfig().getDouble("animation.radius.max");
+        minRadius = item.getConfig().getDouble("animation.radius.min");
+        currentRadius = maxRadius;
+        radiusStep = item.getConfig().getDouble("animation.radius.step");
+        speed = item.getConfig().getDouble("animation.speed");
+        downStep = item.getConfig().getDouble("animation.down.step");
+        Y = center.getBlockY();
+        maxDown = item.getConfig().getDouble("animation.down.max");;
+    }
+
+    public void update(){
+        if (angle >= 360)
+            angle = 0;
+
+        if(currentRadius <= minRadius)
+            currentRadius = minRadius;
+
+        if(currentRadius >= maxRadius)
+            currentRadius = maxRadius;
+
+        if(center.getBlockY() - Y >= maxDown){
+            Y = center.getBlockY();
+            currentRadius = maxRadius;
+        }
+
+        double x = center.getX() + currentRadius * Math.cos(angle);
+        double z = center.getZ() + currentRadius * Math.sin(angle);
+
+        Location particleLocation = new Location(center.getWorld(), x, Y, z);
+        center.getWorld().spawnParticle(Particle.REDSTONE, particleLocation, 0, data);
+
+        if(reversed){
+            Y -= downStep;
+            angle -= speed;
+            currentRadius += radiusStep;
+            return;
+        }
+
+        Y -= downStep;
+        angle += speed;
+        currentRadius += radiusStep;
     }
 }
